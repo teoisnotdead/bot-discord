@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const { isNewPost, updateStorage } = require("./storageService");
 
 const INSTAGRAM_USERNAME = process.env.INSTAGRAM_USERNAME;
 
@@ -40,9 +41,18 @@ async function checkInstagram() {
       throw new Error("❌ No se encontraron publicaciones en Instagram.");
     }
 
-    console.log(`✅ Último post en Instagram: ${latestPostUrl}`);
+    // 🛑 Verificar si el post ya fue publicado
+    if (!isNewPost("instagram", latestPostUrl)) {
+      console.log("⚠️ No hay publicaciones nuevas en Instagram.");
+      return null; // No publicar si es repetido
+    }
 
-    // Crear Embed para Discord si hay imagen
+    // 📌 Guardar el nuevo post en `storage.json`
+    updateStorage("instagram", latestPostUrl);
+
+    console.log(`✅ Nuevo post en Instagram: ${latestPostUrl}`);
+
+    // 🖼️ Crear Embed para Discord si hay imagen
     if (latestPostImage) {
       return {
         embed: {
