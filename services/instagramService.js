@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer-core");
+const puppeteer = require("puppeteer");
 const { isNewPost, updateStorage } = require("./storageService");
 
 const INSTAGRAM_USERNAME = process.env.INSTAGRAM_USERNAME;
@@ -6,7 +6,6 @@ const INSTAGRAM_USERNAME = process.env.INSTAGRAM_USERNAME;
 async function launchBrowser() {
   return await puppeteer.launch({
     headless: "new",
-    executablePath: "/usr/bin/google-chrome-stable", // Ruta esperada en Render
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
