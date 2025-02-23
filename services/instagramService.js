@@ -5,7 +5,8 @@ const INSTAGRAM_USERNAME = process.env.INSTAGRAM_USERNAME;
 
 async function launchBrowser() {
   return await puppeteer.launch({
-    headless: "new",
+    headless: "new", // Usa "true" si prefieres ocultarlo completamente
+    executablePath: process.env.CHROME_PATH || puppeteer.executablePath(), // Render necesita CHROME_PATH
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
@@ -34,8 +35,17 @@ async function checkInstagram() {
     console.log(`🌍 Accediendo al perfil de Instagram: ${profileUrl}`);
     await page.goto(profileUrl, { waitUntil: "networkidle2" });
 
-    // Esperar a que cargue la primera publicación
-    await page.waitForSelector("article a", { timeout: 5000 });
+    // 🕰️ Esperar a que la página cargue completamente
+    await page.waitForTimeout(1000);
+
+    // 🔒 Verificar si Instagram bloqueó el acceso (Login requerido)
+    const pageContent = await page.content();
+    if (pageContent.includes("Log in") || pageContent.includes("Sign up")) {
+      throw new Error("❌ Instagram requiere login, acceso bloqueado.");
+    }
+
+    // 🔄 Usamos `waitForFunction()` en lugar de `waitForSelector()` para evitar errores de frame detached
+    await page.waitForFunction(() => document.querySelector("article a") !== null, { timeout: 10000 });
 
     // Obtener el enlace del último post
     const latestPostUrl = await page.evaluate(() => {

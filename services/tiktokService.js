@@ -5,7 +5,8 @@ const TIKTOK_USERNAME = process.env.TIKTOK_USERNAME;
 
 async function launchBrowser() {
   return await puppeteer.launch({
-    headless: "new",
+    headless: "new", // Usa "true" si prefieres ocultarlo completamente
+    executablePath: process.env.CHROME_PATH || puppeteer.executablePath(), // Render necesita CHROME_PATH
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
@@ -16,7 +17,6 @@ async function launchBrowser() {
     ]
   });
 }
-
 async function checkTikTok() {
   try {
     console.log("🔍 Buscando el último video en TikTok...");
