@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { isNewPost, updateStorage } = require("./storageService");
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const YOUTUBE_CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID;
@@ -14,7 +15,12 @@ async function checkYouTube() {
         const videoTitle = latestVideo.snippet.title;
         const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
-        console.log(`✅ Último video en YouTube: ${videoTitle} - ${videoUrl}`);
+        // Verificar si es un video nuevo
+        if (!isNewPost("youtube", videoUrl)) return null;
+
+        console.log(`✅ Nuevo video en YouTube: ${videoTitle} - ${videoUrl}`);
+        updateStorage("youtube", videoUrl);
+
         return `📺 **Último video en YouTube:** ${videoTitle}\n🔗 ${videoUrl}`;
     } catch (error) {
         console.error("❌ Error al obtener videos de YouTube:", error);
