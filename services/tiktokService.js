@@ -3,6 +3,21 @@ const { isNewPost, updateStorage } = require("./storageService");
 
 const TIKTOK_USERNAME = process.env.TIKTOK_USERNAME;
 
+async function launchBrowser() {
+  return await puppeteer.launch({
+    headless: "new",
+    executablePath: "/usr/bin/google-chrome-stable", // Ruta esperada en Render
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-gpu",
+      "--disable-dev-shm-usage",
+      "--single-process",
+      "--no-zygote"
+    ]
+  });
+}
+
 async function checkTikTok() {
   try {
     console.log("🔍 Buscando el último video en TikTok...");
@@ -10,7 +25,7 @@ async function checkTikTok() {
     if (!username) throw new Error("❌ ERROR: TIKTOK_USERNAME no está definido en .env.");
 
     const profileUrl = `https://www.tiktok.com/@${username}`;
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await launchBrowser();
     const page = await browser.newPage();
 
     console.log(`🌍 Accediendo al perfil de TikTok: ${profileUrl}`);

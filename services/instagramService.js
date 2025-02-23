@@ -3,6 +3,21 @@ const { isNewPost, updateStorage } = require("./storageService");
 
 const INSTAGRAM_USERNAME = process.env.INSTAGRAM_USERNAME;
 
+async function launchBrowser() {
+  return await puppeteer.launch({
+    headless: "new",
+    executablePath: "/usr/bin/google-chrome-stable", // Ruta esperada en Render
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-gpu",
+      "--disable-dev-shm-usage",
+      "--single-process",
+      "--no-zygote"
+    ]
+  });
+}
+
 async function checkInstagram() {
   try {
     console.log("🔍 Buscando el último post en Instagram...");
@@ -14,7 +29,7 @@ async function checkInstagram() {
     const username = INSTAGRAM_USERNAME;
     const profileUrl = `https://www.instagram.com/${username}/`;
 
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await launchBrowser();
     const page = await browser.newPage();
 
     console.log(`🌍 Accediendo al perfil de Instagram: ${profileUrl}`);
