@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-core");
 const { isNewPost, updateStorage } = require("./storageService");
 
 const INSTAGRAM_USERNAME = process.env.INSTAGRAM_USERNAME;

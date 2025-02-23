@@ -1,4 +1,4 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-core");
 const { isNewPost, updateStorage } = require("./storageService");
 
 const TIKTOK_USERNAME = process.env.TIKTOK_USERNAME;
