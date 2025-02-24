@@ -19,12 +19,8 @@ const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 async function postUpdates() {
   console.log("\n🚀 Ejecutando revisión de redes sociales...\n");
 
-  // salto de linea entre cada revisión
-  console.log("\n🚀 ----YOUTUBE----\n");
   const youtubeUpdate = await checkYouTube();
-  console.log("\n🚀 ----TIKTOK----\n");
   const tiktokUpdate = await checkTikTok();
-  console.log("\n🚀 ----INSTAGRAM----\n");
   const instagramUpdate = await checkInstagram();
 
   console.log(`📢 Buscando canal en cache...`);
@@ -81,7 +77,7 @@ client.once("ready", async () => {
   await postUpdates(); // Ejecuta la función inmediatamente al iniciar
 });
 
-// 🔹 Revisión automática cada 60 Minutos
+// 🔹 Revisión automática cada 10 minutos
 setInterval(postUpdates, 600000);
 
 client.login(DISCORD_BOT_TOKEN);
