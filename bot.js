@@ -19,8 +19,13 @@ const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 async function postUpdates() {
   console.log("\n🚀 Ejecutando revisión de redes sociales...\n");
 
+  console.log("\n🚀 ----YOUTUBE----\n");
   const youtubeUpdate = await checkYouTube();
+
+  console.log("\n🚀 ----TIKTOK----\n");
   const tiktokUpdate = await checkTikTok();
+
+  console.log("\n🚀 ----INSTAGRAM----\n");
   const instagramUpdate = await checkInstagram();
 
   console.log("\n🚀 ----FINAL----\n");
