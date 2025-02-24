@@ -16,7 +16,10 @@ async function checkYouTube() {
         const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
 
         // Verificar si es un video nuevo
-        if (!isNewPost("youtube", videoUrl)) return null;
+        if (!isNewPost("youtube", videoUrl)) {
+            console.log("⚠️ No hay nuevos videos en YouTube.");
+            return null;
+        }
 
         console.log(`✅ Nuevo video en YouTube: ${videoTitle} - ${videoUrl}`);
         updateStorage("youtube", videoUrl);

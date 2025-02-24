@@ -26,7 +26,10 @@ async function checkTikTok() {
     if (!videoLink) throw new Error("❌ No se pudo encontrar el último video en TikTok.");
 
     // Verificar si es un video nuevo
-    if (!isNewPost("tiktok", videoLink)) return null;
+    if (!isNewPost("tiktok", videoLink)) {
+      console.log("⚠️ No hay nuevos videos en TikTok.");
+      return null;
+    }
 
     console.log(`✅ Nuevo video en TikTok encontrado: ${videoLink}`);
     updateStorage("tiktok", videoLink);

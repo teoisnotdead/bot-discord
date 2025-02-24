@@ -27,6 +27,7 @@ async function postUpdates() {
   console.log("\n🚀 ----INSTAGRAM----\n");
   const instagramUpdate = await checkInstagram();
 
+  console.log("\n🚀 ----FINAL----\n");
   console.log(`📢 Buscando canal en cache...`);
   const channel = await client.channels.fetch(DISCORD_CHANNEL_ID).catch(() => null);
 
